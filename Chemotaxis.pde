@@ -1,11 +1,15 @@
 //declare bacteria variables here   
  Bacteria original;
  Bacteria top;
+ //
+ //
+ //
+ //
  // float a=0.0; 
  boolean reboot = false;
  int randomWalk = (int)(Math.random()*4)+1;
  int shift = 2;
- int num = 5;//(int)(Math.random()*10);
+ int num = (int)(Math.random()*10);
  int bubbleColor = color(255, 255 , 255);
  int grayColor = color(174, 180, 191);
  boolean correctNumber = false;
@@ -209,7 +213,7 @@
  void numberGenerator(){
    fill(0);
    if(myX == 60){
-     num = 5;//(int)(Math.random()*10);
+     num = (int)(Math.random()*10);
    }
    text(num, myX-4, myY+5);
    // pushMatrix();
