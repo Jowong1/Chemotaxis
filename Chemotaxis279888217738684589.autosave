@@ -1,6 +1,10 @@
 //declare bacteria variables here   
  Bacteria original;
  Bacteria top;
+ //
+ //
+ //
+ //
  // float a=0.0; 
  boolean reboot = false;
  int randomWalk = (int)(Math.random()*4)+1;
