@@ -2,10 +2,13 @@
  Bacteria original;
  Bacteria top;
  // float a=0.0; 
+ boolean askForNumber = true;
+ boolean noWait = false;
+ int textFader = 0;
  boolean reboot = false;
  int randomWalk = (int)(Math.random()*4)+1;
  int shift = 2;
- int num = (int)(Math.random()*10);
+ int num = (int)(Math.random()*5);
  int bubbleColor = color(255, 255 , 255);
  int grayColor = color(174, 180, 191);
  boolean correctNumber = false;
@@ -33,6 +36,9 @@
  int crusherX = 500;
  int crusherShift = -1;
  boolean crushEm = false;
+ boolean crushed = false;
+ int barX = 40;
+ int barShift = -2;
  void setup()   
  {     
    //initialize bacteria variables here 
@@ -83,10 +89,9 @@
  class Bacteria    
  {     
    int myX, myY;
-  Bacteria(){
-  myX = 250;
-  myY = 250;
-
+   Bacteria(){
+   myX = 250;
+   myY = 250;
  }
  void walk(){
    if(myX < 0){
@@ -119,9 +124,19 @@
    if(myX < 50 && reboot == false){
      shift = 2;
    }else if(myX > 460 && reboot == false){
-     shift = -2;
+     shift = -4;
    }else if(reboot == true){
      shift = 1;
+   }
+   if(askForNumber == true){
+     fill(255);
+     textSize(14);
+     text("Waiting for number...",350,15);
+     if(noWait == true){
+       fill(0,0,0,textFader);
+       textFader = textFader + 2;
+       rect(350,0, 150,20);
+     }
    }
  }
  void runCheck(){
@@ -138,6 +153,7 @@
      }
      if(myY == 80){
        secondRow = true;
+       noWait = true;
      }
      bubbleColor = color(0, 255, 0);
    }else{
@@ -186,10 +202,18 @@
  }
    void crusher(){
     if(cueCrusher == true){
+      fill(0);
+      rect(crusherX, 155,50,5); // black filler
       fill(100);
-      rect(crusherX, 160, 50, 40);
-      triangle(crusherX, 150, crusherX + 50, 150, crusherX + 25, 170);
+      rect(crusherX, 160, 50, 40); // base of crusher
+      triangle(crusherX, 150, crusherX + 50, 150, crusherX + 25, 170); // nozzle
+      fill(200);
+      rect(crusherX+5, 175,40,10); //gray bar
+      fill(0,255,0);
+      rect(crusherX+7.5, 177.5,36,5);
       crusherX = crusherX + crusherShift;
+      fill(255);
+      rect(crusherX + barX, 175, 5, 10);
       if(crusherX > 410){
         crusherShift = -2;
       }
@@ -197,11 +221,23 @@
         crusherShift = 0;
         crushEm = true;
       }
+      //
+      if(crushed == true){ // green//white bar
+        barX = barX + barShift;
+        if(barX > 7){
+          barShift = -1;
+        }
+        if(barX <= 7){
+          barShift = 0;
+          //crushEm = true;
+        }
+      }
     }
     if(crushEm == true){
       shiftY = 1;
       if(myY == 180){
         shiftY = 0;
+        crushed = true;
       }
     }
     fill(grayColor);
@@ -209,7 +245,7 @@
  void numberGenerator(){
    fill(0);
    if(myX == 60){
-     num = (int)(Math.random()*10);
+     num = 5;//(int)(Math.random()*6);
    }
    text(num, myX-4, myY+5);
    // pushMatrix();
@@ -254,10 +290,10 @@ void reshape(){
    
    if(myX < 200 && myX > 20){
      leftSquish = true;
-     if(myY > 70 && hitBottomSecond == false){
+     if(myY > 71 && hitBottomSecond == false){
        myY = myY - 1;//
        heightY = heightY - 1;
-     }else if(myY == 70){
+     }else if(myY == 71){
        hitBottomSecond = true;
      }
      if(hitBottomSecond == true && myY < 80 && myX < 100){
