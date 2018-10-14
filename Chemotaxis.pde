@@ -38,6 +38,7 @@
  int barShift = -2;
  boolean cueSquares = false;
  int randomSpeed = 1;
+ int numberCounter = 0;
  boolean closeArena = false;
  int rcx = 510;
  int lcx = -10;
@@ -73,13 +74,10 @@
  frameRate(100);
  top = new Bacteria();
  squares = new Bacteria[10];
- if(frameCount % 100 == 0){
   for(int i = 0; i < squares.length;i++)
   {
     squares[i] = new Bacteria();
   }
- }
-
  }   
  void draw()   
  {    
@@ -93,7 +91,7 @@
    rect(25,350,450,5);
    rect(25,400,450,5);
    rect(25,400,450,5);
-   if(closeArena == true){
+   if(closeArena == true && numberCounter > 800){
      arenaClosers();
      for(int i = 0; i < squares.length;i++){
        rise = true;
@@ -184,10 +182,15 @@
      }else if(squares[i].myXSquare == 250 && squares[i].squareSize == 20){
        squares[i].myRandomSpeed = 0;
        myXSquare = 250-20;
+       closeArena = true;
      }else if(squares[i].myXSquare == 250 && squares[i].squareSize == 30){
        squares[i].myRandomSpeed = 0;
        myXSquare = 250-15;
+       closeArena = true;
      }
+   }
+   if(closeArena == true){
+     numberCounter = numberCounter + 1;
    }
  }
  void squareShow(){
