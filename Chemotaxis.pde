@@ -1,14 +1,11 @@
-//declare bacteria variables here   
- Bacteria original;
  Bacteria top;
- // float a=0.0; 
+ Bacteria [] squares;
  boolean askForNumber = true;
  boolean noWait = false;
  int textFader = 0;
  boolean reboot = false;
- int randomWalk = (int)(Math.random()*4)+1;
  int shift = 2;
- int num = (int)(Math.random()*5);
+ int num = (int)(Math.random()*3)+3;
  int bubbleColor = color(255, 255 , 255);
  int grayColor = color(174, 180, 191);
  boolean correctNumber = false;
@@ -39,20 +36,52 @@
  boolean crushed = false;
  int barX = 40;
  int barShift = -2;
+ boolean cueSquares = false;
+ int randomSpeed = 1;
+ boolean closeArena = false;
+ int rcx = 510;
+ int lcx = -10;
+ int rayShade = 0;
+ boolean riseSquares = false;
+ boolean rise = false;
+ int textShade = -50;
+ float textY = 100;
+ 
+ /*TABLE OF CONTENTS
+  setup
+  draw
+  class Bacteria
+  rise
+  run
+  squareGlide
+  squareShow
+  runCheck
+  runCheckSecondRow
+  crusher
+  numberGenerator
+  show
+  reshape
+  arenaSquisher
+  topRowDispenser
+  rayBeam
+  thankYou
+ */
  void setup()   
  {     
-   //initialize bacteria variables here 
-
  size(500,500);
- //background(0);
  frameRate(100);
- // textMode(CENTER);
- //original = new Bacteria();
  top = new Bacteria();
+ squares = new Bacteria[10];
+ if(frameCount % 100 == 0){
+  for(int i = 0; i < squares.length;i++)
+  {
+    squares[i] = new Bacteria();
+  }
+ }
+
  }   
  void draw()   
  {    
-   //move and show the bacteria   //60% chance to not change direction?
    background(0);
    rect(25,50,400,5);
    rect(25,100,450,5);
@@ -63,8 +92,16 @@
    rect(25,350,450,5);
    rect(25,400,450,5);
    rect(25,400,450,5);
-   //original.walk();
-   //original.show();
+   if(closeArena == true){
+     arenaClosers();
+     for(int i = 0; i < squares.length;i++){
+       rise = true;
+       squares[i].rise();
+     }
+     if(riseSquares == true){
+       thankYou();
+     }
+   }
    if(thirdRow == true){
      top.runCheckSecondRow();
    }
@@ -73,7 +110,12 @@
    top.show();
    top.numberGenerator();
    topRowDispenser();
-   
+   if(cueSquares == true){
+     for(int i = 0; i < squares.length;i++){
+         squares[i].squareShow();
+         squares[i].squareGlide();
+     }
+   }
    if(secondRow == true){
      frameRate(70);
      shift = -1;
@@ -84,41 +126,30 @@
    if(thirdRow == true){
      top.crusher();
    }
-   
  }  
+ 
  class Bacteria    
  {     
-   int myX, myY;
+   int myX, myY, myXSquare, randomSquareSize, myRandomSpeed, squareSize;
+   double increaser, myYSquare;
    Bacteria(){
    myX = 250;
-   myY = 250;
+   myY = 200;
+   myXSquare = 400;
+   myYSquare = 170;
+   randomSquareSize = (int)(Math.random()*3)+1;
+   myRandomSpeed = (int)(Math.random()*4)+1;
+   increaser = (Math.random()*1)+0.5;
  }
- void walk(){
-   if(myX < 0){
-     myX = myX + 2;
-   }else if(myX > 500){
-     myX = myX - 2;
-   }
-   if(myY < 0){
-     myY = myY + 2;
-   }else if(myY > 500){
-     myY = myY - 2;
-   }
-   if(myX % 25 == 0 && myY % 25 == 0){
-     randomWalk = (int)(Math.random()*4)+1;
-   }
-   if(randomWalk == 1){
-     myX = myX + 2;
-   }else if(randomWalk == 2){
-     myX = myX - 2;
-   }else if(randomWalk == 3){
-     myY = myY + 2;
-   }else if(randomWalk == 4){
-     myY = myY - 2;
-   }else{
-     println(randomWalk);
+ 
+ void rise(){
+   if(riseSquares == true){
+     for(int i = 0; i < squares.length;i++){
+     squares[i].myYSquare = squares[i].myYSquare - squares[i].increaser;
+     }
    }
  }
+ 
  void run(){
    myX = myX + shift;
    if(myX < 50 && reboot == false){
@@ -139,9 +170,44 @@
      }
    }
  }
+ 
+ void squareGlide(){
+   if(myXSquare > 250){
+     myXSquare = myXSquare - myRandomSpeed;
+   }
+   for(int i = 0; i < squares.length; i++){
+     if(squares[i].myXSquare == 250 && squares[i].squareSize == 10){
+       squares[i].myRandomSpeed = 0;
+       myXSquare = 250-5;
+       closeArena = true;
+     }else if(squares[i].myXSquare == 250 && squares[i].squareSize == 20){
+       squares[i].myRandomSpeed = 0;
+       myXSquare = 250-20;
+     }else if(squares[i].myXSquare == 250 && squares[i].squareSize == 30){
+       squares[i].myRandomSpeed = 0;
+       myXSquare = 250-15;
+     }
+   }
+ }
+ void squareShow(){
+   if(rise == false){
+     myYSquare = 170;
+     if(randomSquareSize == 1){
+       squareSize = 10;
+       myYSquare = myYSquare + 20;
+     }else if(randomSquareSize == 2){
+       squareSize = 20;
+       myYSquare = myYSquare + 5;
+     }else if(randomSquareSize == 3){
+       squareSize = 30;
+     }
+   }
+   fill(0,0,255,100);
+   rect(myXSquare, (int)myYSquare, squareSize, squareSize);
+ }
  void runCheck(){
    if(correctNumber == true && myX >= 460){
-     changemyY = true; //Function: myY = 80;
+     changemyY = true;
      bubbleColor = color(0, 255, 0);
    }else if(changemyY == true){
      myY = myY + shiftY;
@@ -160,6 +226,7 @@
    myY = 30;
    }
  }
+ 
  void runCheckSecondRow(){
    if(thirdRow == true){
     fill(0);
@@ -171,7 +238,6 @@
     vertex(75,tipperY + 6);
     vertex(25,106);
     endShape(CLOSE);
-    //frameRate(20);
     tipperY = tipperY + tipperYshift;
     if(tipperY < 100){
       tipperYshift = 2;
@@ -200,15 +266,19 @@
     }
    }
  }
+ 
    void crusher(){
     if(cueCrusher == true){
       fill(0);
       rect(crusherX, 155,50,5); // black filler
-      fill(100);
-      rect(crusherX, 160, 50, 40); // base of crusher
+      fill(105);
       triangle(crusherX, 150, crusherX + 50, 150, crusherX + 25, 170); // nozzle
+      fill(115);
+      triangle(crusherX + 5, 150 + 3, crusherX + 45, 150 + 3, crusherX + 25, 170); // nozzle
+      fill(110);
+      rect(crusherX, 160, 50, 40); // base of crusher
       fill(200);
-      rect(crusherX+5, 175,40,10); //gray bar
+      rect(crusherX+5, 175,40,10); // gray bar
       fill(0,255,0);
       rect(crusherX+7.5, 177.5,36,5);
       crusherX = crusherX + crusherShift;
@@ -221,15 +291,14 @@
         crusherShift = 0;
         crushEm = true;
       }
-      //
-      if(crushed == true){ // green//white bar
+      if(crushed == true){ // green/white bar
         barX = barX + barShift;
         if(barX > 7){
           barShift = -1;
         }
         if(barX <= 7){
           barShift = 0;
-          //crushEm = true;
+          cueSquares = true;
         }
       }
     }
@@ -242,21 +311,13 @@
     }
     fill(grayColor);
    }
+   
  void numberGenerator(){
    fill(0);
    if(myX == 60){
-     num = 5;//(int)(Math.random()*6);
+     num = (int)(Math.random()*3)+3;
    }
    text(num, myX-4, myY+5);
-   // pushMatrix();
-   // fill(255);
-   // translate(width/2, height/2);
-   // translate(myX-4, myY+5);
-   // rotate(a);  
-   // textAlign(CENTER,CENTER);
-   // text("5", -5, -5);
-   // popMatrix();
-   // a+=.01;
    if(num == 5){
      correctNumber = true;
    }
@@ -266,17 +327,18 @@
      bubbleColor = color(255, 255, 255);
    }
  }
- void show(){
+ 
+void show(){
    fill(bubbleColor);
    ellipse(myX, myY, widthX, heightY);
- }
+}
+
 void reshape(){
   if(myX < 400 && myX > 225){
     rightSquish = true;
     if(myY < 90 && hitBottom == false){
-      myY = myY + 1;//
+      myY = myY + 1;
       heightY = heightY - 1;
-    //heightY = 20;
     }else if(myY == 90){
       hitBottom = true;
     }
@@ -287,26 +349,25 @@ void reshape(){
   }else{
     rightSquish = false;
   }
-   
-   if(myX < 200 && myX > 20){
-     leftSquish = true;
-     if(myY > 71 && hitBottomSecond == false){
-       myY = myY - 1;//
-       heightY = heightY - 1;
-     }else if(myY == 71){
-       hitBottomSecond = true;
-     }
-     if(hitBottomSecond == true && myY < 80 && myX < 100){
-       myY = myY + 1;
-       heightY = heightY + 1;
-     }
-   }else{
-     leftSquish = false;
-   }
-   if(myX < 70){
-     secondRow = false;
-   }
- }
+  if(myX < 200 && myX > 20){
+    leftSquish = true;
+    if(myY > 71 && hitBottomSecond == false){
+      myY = myY - 1;
+      heightY = heightY - 1;
+    }else if(myY == 71){
+      hitBottomSecond = true;
+    }
+    if(hitBottomSecond == true && myY < 80 && myX < 100){
+      myY = myY + 1;
+      heightY = heightY + 1;
+    }
+  }else{
+    leftSquish = false;
+  }
+  if(myX < 70){
+    secondRow = false;
+  }
+}
   void arenaSquisher(){
    fill(grayColor);
    // LEFT SQUISH
@@ -353,12 +414,14 @@ void reshape(){
   }
  }
 }
+
  void topRowDispenser(){
    fill(0);
    noStroke();
    rect(25,0,50,20);
-   fill(100);
+   fill(96);
    triangle(80,5,80,60,20,32.5);
+   fill(100);
    rect(10,15, 50, 35);
    fill(117, 127, 145);
    rect(15,20,40,7);
@@ -381,6 +444,66 @@ void reshape(){
    }else if(myXSecond > 23){
      shiftmyXSecond = -1;
    }
-   
    fill(grayColor);
+ }
+ 
+ void arenaClosers(){
+   fill(255);
+   if(rcx > 275){
+     rcx = rcx - 1;
+   }
+   if(lcx < 225){
+     lcx = lcx + 1;
+   }
+   if(rcx == 275 && lcx == 225){
+     rayBeam();
+   }
+   // RIGHT SIDE
+   fill(255);
+   rect(rcx,235, 5, 30);// White sqishers
+   rect(rcx,335-50, 5, 30);
+   rect(rcx,335, 5, 30);
+   rect(rcx,385, 5, 30);
+   fill(0);
+   rect(rcx+5,250, 250, 5);// Black trail filler
+   rect(rcx+5,335-35, 250, 5);
+   rect(rcx+5,335+15, 250, 5);
+   rect(rcx+5,385+15, 250, 5);
+   // LEFT SIDE
+   fill(255);
+   rect(lcx,235, 5, 30);
+   rect(lcx,335-50, 5, 30);
+   rect(lcx,335, 5, 30);
+   rect(lcx,385, 5, 30);
+   fill(0);
+   rect(lcx,250, -250, 5);// Black trail filler
+   rect(lcx,335-35, -250, 5);
+   rect(lcx,335+15, -250, 5);
+   rect(lcx,385+15, -250, 5);
+   fill(grayColor);
+ }
+ 
+ void rayBeam(){
+   fill(255, 241, 96, rayShade);
+   if(rayShade < 200){
+     rayShade = rayShade + 1;
+   }
+   if(rayShade > 100){
+     riseSquares = true;
+   }
+   rect(232, 0, 41, 500);
+   fill(255, 241, 96, rayShade - 150);
+   rect(240, 0, 25, 500);
+ }
+ 
+ void thankYou(){
+   fill(255,255,255, textShade);
+   if(textShade < 255){
+     textShade = textShade + 1;
+   }
+   if(textY < 250){
+     textY = textY + 0.8;
+   }
+   textSize(50);
+   text("Thank You!", 110, textY);
  }
