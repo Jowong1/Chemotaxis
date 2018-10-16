@@ -176,7 +176,7 @@ Bacteria top;
  }
  void squareShow(){
    if(rise == false){
-     myYSquare = 170.0;
+     myYSquare = 100;
      if(randomSquareSize == 1){
        squareSize = 10;
        myYSquare = myYSquare + 20.0;
