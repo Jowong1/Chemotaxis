@@ -1,11 +1,11 @@
-Bacteria top;
+ Bacteria top;
  Bacteria [] squares;
  boolean askForNumber = true;
  boolean noWait = false;
  int textFader = 0;
  boolean reboot = false;
  int shift = 2;
- int num = 6;//(int)(Math.random()*3)+3;
+ int num = (int)(Math.random()*3)+3;
  int bubbleColor = color(255, 255 , 255);
  int grayColor = color(174, 180, 191);
  boolean correctNumber = false;
@@ -54,9 +54,9 @@ Bacteria top;
  frameRate(100);
  top = new Bacteria();
  squares = new Bacteria[10];
-  for(int p = 0; p < squares.length;p++)
+  for(int i = 0; i < squares.length;i++)
   {
-    squares[p] = new Bacteria();
+    squares[i] = new Bacteria();
   }
  }   
  void draw()   
@@ -73,9 +73,9 @@ Bacteria top;
    rect(25,400,450,5);
    if(closeArena == true && numberCounter > 800){
      arenaClosers();
-     for(int l = 0; l < squares.length;l++){
+     for(int i = 0; i < squares.length;i++){
        riseBoolean = true;
-       squares[l].rise();
+       squares[i].rise();
      }
      if(riseSquares == true){
        thankYou();
@@ -90,9 +90,9 @@ Bacteria top;
    top.numberGenerator();
    topRowDispenser();
    if(cueSquares == true){
-     for(int t = 0; t < squares.length;t++){
-         squares[t].squareShow();
-         squares[t].squareGlide();
+     for(int i = 0; i < squares.length;i++){
+         squares[i].squareShow();
+         squares[i].squareGlide();
      }
    }
    if(secondRow == true){
@@ -110,21 +110,21 @@ Bacteria top;
  class Bacteria    
  {     
    int myX, myY, myXSquare, randomSquareSize, myRandomSpeed, squareSize;
-   double increaser, myYSquare;
+   float increaser, myYSquare;
    Bacteria(){
    myX = 250;
    myY = 200;
    myXSquare = 400;
-   myYSquare = 170.0;
+   myYSquare = 170;
    randomSquareSize = (int)(Math.random()*3)+1;
    myRandomSpeed = (int)(Math.random()*4)+1;
-   increaser = (Math.random()*1)+0.5;
+   increaser = (float)(Math.random()*1)+0.5;
  }
  
  void rise(){
    if(riseSquares == true){
-     for(int w = 0; w < squares.length;w++){
-     squares[w].myYSquare = squares[w].myYSquare - squares[w].increaser;
+     for(int i = 0; i < squares.length;i++){
+     squares[i].myYSquare = squares[i].myYSquare - squares[i].increaser;
      }
    }
  }
@@ -154,19 +154,18 @@ Bacteria top;
    if(myXSquare >= 250){
      myXSquare = myXSquare - myRandomSpeed;
    }
-   println(myRandomSpeed);
-   for(int u = 0; u < squares.length; u++){
-     if(squares[u].myXSquare == 250 && squares[u].squareSize == 10){
-       squares[u].myRandomSpeed = 0;
-       myXSquare = 245;
+   for(int i = 0; i < squares.length; i++){
+     if(squares[i].myXSquare == 250 && squares[i].squareSize == 10){
+       squares[i].myRandomSpeed = 0;
+       myXSquare = 250-5;
        closeArena = true;
-     }else if(squares[u].myXSquare == 250 && squares[u].squareSize == 20){
-       squares[u].myRandomSpeed = 0;
-       myXSquare = 230;
+     }else if(squares[i].myXSquare == 250 && squares[i].squareSize == 20){
+       squares[i].myRandomSpeed = 0;
+       myXSquare = 250-20;
        closeArena = true;
-     }else if(squares[u].myXSquare == 250 && squares[u].squareSize == 30){
-       squares[u].myRandomSpeed = 0;
-       myXSquare = 235;
+     }else if(squares[i].myXSquare == 250 && squares[i].squareSize == 30){
+       squares[i].myRandomSpeed = 0;
+       myXSquare = 250-15;
        closeArena = true;
      }
    }
@@ -176,21 +175,19 @@ Bacteria top;
  }
  void squareShow(){
    if(riseBoolean == false){
-     println("Rise is false");
-     myYSquare = 100;
+     myYSquare = 170;
      if(randomSquareSize == 1){
        squareSize = 10;
-       myYSquare = myYSquare + 20.0;
+       myYSquare = myYSquare + 20;
      }else if(randomSquareSize == 2){
        squareSize = 20;
-       myYSquare = myYSquare + 5.0;
+       myYSquare = myYSquare + 5;
      }else if(randomSquareSize == 3){
        squareSize = 30;
      }
    }
    fill(0,0,255,100);
-   rect(myXSquare, 100, squareSize, squareSize);
-   println(myXSquare + "," + myYSquare);
+   rect(myXSquare, myYSquare, squareSize, squareSize);
  }
  void runCheck(){
    if(correctNumber == true && myX >= 460){
@@ -305,7 +302,7 @@ Bacteria top;
      num = (int)(Math.random()*3)+3;
    }
    text(num, myX-4, myY+5);
-   if(num == 6){
+   if(num == 5){
      correctNumber = true;
    }
    if(myX >= 400 && correctNumber != true){
