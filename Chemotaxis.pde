@@ -54,9 +54,9 @@ Bacteria top;
  frameRate(100);
  top = new Bacteria();
  squares = new Bacteria[10];
-  for(int i = 0; i < squares.length;i++)
+  for(int p = 0; p < squares.length;p++)
   {
-    squares[i] = new Bacteria();
+    squares[p] = new Bacteria();
   }
  }   
  void draw()   
@@ -73,9 +73,9 @@ Bacteria top;
    rect(25,400,450,5);
    if(closeArena == true && numberCounter > 800){
      arenaClosers();
-     for(int i = 0; i < squares.length;i++){
+     for(int l = 0; l < squares.length;l++){
        rise = true;
-       squares[i].rise();
+       squares[l].rise();
      }
      if(riseSquares == true){
        thankYou();
@@ -123,8 +123,8 @@ Bacteria top;
  
  void rise(){
    if(riseSquares == true){
-     for(int i = 0; i < squares.length;i++){
-     squares[i].myYSquare = squares[i].myYSquare - squares[i].increaser;
+     for(int w = 0; w < squares.length;w++){
+     squares[w].myYSquare = squares[w].myYSquare - squares[w].increaser;
      }
    }
  }
@@ -155,18 +155,18 @@ Bacteria top;
      myXSquare = myXSquare - myRandomSpeed;
    }
    println(myRandomSpeed);
-   for(int i = 0; i < squares.length; i++){
-     if(squares[i].myXSquare == 250 && squares[i].squareSize == 10){
-       squares[i].myRandomSpeed = 0;
-       myXSquare = 250-5;
+   for(int u = 0; u < squares.length; u++){
+     if(squares[u].myXSquare == 250 && squares[u].squareSize == 10){
+       squares[u].myRandomSpeed = 0;
+       myXSquare = 245;
        closeArena = true;
-     }else if(squares[i].myXSquare == 250 && squares[i].squareSize == 20){
-       squares[i].myRandomSpeed = 0;
-       myXSquare = 250-20;
+     }else if(squares[u].myXSquare == 250 && squares[u].squareSize == 20){
+       squares[u].myRandomSpeed = 0;
+       myXSquare = 230;
        closeArena = true;
-     }else if(squares[i].myXSquare == 250 && squares[i].squareSize == 30){
-       squares[i].myRandomSpeed = 0;
-       myXSquare = 250-15;
+     }else if(squares[u].myXSquare == 250 && squares[u].squareSize == 30){
+       squares[u].myRandomSpeed = 0;
+       myXSquare = 235;
        closeArena = true;
      }
    }
@@ -176,6 +176,7 @@ Bacteria top;
  }
  void squareShow(){
    if(rise == false){
+     println("Rise is false");
      myYSquare = 100;
      if(randomSquareSize == 1){
        squareSize = 10;
