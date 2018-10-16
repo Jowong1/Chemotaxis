@@ -110,7 +110,7 @@ Bacteria top;
  class Bacteria    
  {     
    int myX, myY, myXSquare, randomSquareSize, myRandomSpeed, squareSize;
-   float increaser, myYSquare;
+   double increaser, myYSquare;
    Bacteria(){
    myX = 250;
    myY = 200;
@@ -118,7 +118,7 @@ Bacteria top;
    myYSquare = 170.0;
    randomSquareSize = (int)(Math.random()*3)+1;
    myRandomSpeed = (int)(Math.random()*4)+1;
-   increaser = (float)(Math.random()*1)+0.5;
+   increaser = (Math.random()*1)+0.5;
  }
  
  void rise(){
@@ -188,7 +188,7 @@ Bacteria top;
      }
    }
    fill(0,0,255,100);
-   rect(myXSquare, myYSquare, squareSize, squareSize);
+   rect(myXSquare, (float)myYSquare, squareSize, squareSize);
    println(myXSquare + "," + myYSquare);
  }
  void runCheck(){
