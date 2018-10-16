@@ -171,7 +171,7 @@
  }
  
  void squareGlide(){
-   if(myXSquare > 250){
+   if(myXSquare > 200){
      myXSquare = myXSquare - myRandomSpeed;
    }
    for(int i = 0; i < squares.length; i++){
