@@ -44,7 +44,7 @@ Bacteria top;
  int lcx = -10;
  int rayShade = 0;
  boolean riseSquares = false;
- boolean rise = false;
+ boolean riseBoolean = false;
  int textShade = -50;
  float textY = 100;
  
@@ -74,7 +74,7 @@ Bacteria top;
    if(closeArena == true && numberCounter > 800){
      arenaClosers();
      for(int l = 0; l < squares.length;l++){
-       rise = true;
+       riseBoolean = true;
        squares[l].rise();
      }
      if(riseSquares == true){
@@ -175,7 +175,7 @@ Bacteria top;
    }
  }
  void squareShow(){
-   if(rise == false){
+   if(riseBoolean == false){
      println("Rise is false");
      myYSquare = 100;
      if(randomSquareSize == 1){
