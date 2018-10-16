@@ -1,11 +1,11 @@
- Bacteria top;
+Bacteria top;
  Bacteria [] squares;
  boolean askForNumber = true;
  boolean noWait = false;
  int textFader = 0;
  boolean reboot = false;
  int shift = 2;
- int num = (int)(Math.random()*3)+3;
+ int num = 6;//(int)(Math.random()*3)+3;
  int bubbleColor = color(255, 255 , 255);
  int grayColor = color(174, 180, 191);
  boolean correctNumber = false;
@@ -48,26 +48,6 @@
  int textShade = -50;
  float textY = 100;
  
- /*TABLE OF CONTENTS
-  setup
-  draw
-  class Bacteria
-  rise
-  run
-  squareGlide
-  squareShow
-  runCheck
-  runCheckSecondRow
-  crusher
-  numberGenerator
-  show
-  reshape
-  arenaSquisher
-  topRowDispenser
-  rayBeam
-  thankYou
- */
- 
  void setup()   
  {     
  size(500,500);
@@ -109,7 +89,7 @@
    top.show();
    top.numberGenerator();
    topRowDispenser();
-   if(cueSquares == true)
+   if(cueSquares == true){
      for(int i = 0; i < squares.length;i++){
          squares[i].squareShow();
          squares[i].squareGlide();
@@ -130,15 +110,15 @@
  class Bacteria    
  {     
    int myX, myY, myXSquare, randomSquareSize, myRandomSpeed, squareSize;
-   double increaser, myYSquare;
+   float increaser, myYSquare;
    Bacteria(){
    myX = 250;
    myY = 200;
    myXSquare = 400;
-   myYSquare = 170;
+   myYSquare = 170.0;
    randomSquareSize = (int)(Math.random()*3)+1;
    myRandomSpeed = (int)(Math.random()*4)+1;
-   increaser = (Math.random()*1)+0.5;
+   increaser = (float)(Math.random()*1)+0.5;
  }
  
  void rise(){
@@ -171,9 +151,10 @@
  }
  
  void squareGlide(){
-   if(myXSquare > 200){
+   if(myXSquare >= 250){
      myXSquare = myXSquare - myRandomSpeed;
    }
+   println(myRandomSpeed);
    for(int i = 0; i < squares.length; i++){
      if(squares[i].myXSquare == 250 && squares[i].squareSize == 10){
        squares[i].myRandomSpeed = 0;
@@ -195,19 +176,20 @@
  }
  void squareShow(){
    if(rise == false){
-     myYSquare = 170;
+     myYSquare = 170.0;
      if(randomSquareSize == 1){
        squareSize = 10;
-       myYSquare = myYSquare + 20;
+       myYSquare = myYSquare + 20.0;
      }else if(randomSquareSize == 2){
        squareSize = 20;
-       myYSquare = myYSquare + 5;
+       myYSquare = myYSquare + 5.0;
      }else if(randomSquareSize == 3){
        squareSize = 30;
      }
    }
    fill(0,0,255,100);
-   rect(myXSquare, (int)myYSquare, squareSize, squareSize);
+   rect(myXSquare, myYSquare, squareSize, squareSize);
+   println(myXSquare + "," + myYSquare);
  }
  void runCheck(){
    if(correctNumber == true && myX >= 460){
@@ -308,7 +290,7 @@
     }
     if(crushEm == true){
       shiftY = 1;
-      if((int)myY == 180){
+      if(myY == 180){
         shiftY = 0;
         crushed = true;
       }
@@ -322,7 +304,7 @@
      num = (int)(Math.random()*3)+3;
    }
    text(num, myX-4, myY+5);
-   if(num == 5){
+   if(num == 6){
      correctNumber = true;
    }
    if(myX >= 400 && correctNumber != true){
