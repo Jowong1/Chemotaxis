@@ -188,7 +188,7 @@ Bacteria top;
      }
    }
    fill(0,0,255,100);
-   rect(myXSquare, (float)myYSquare, squareSize, squareSize);
+   rect(myXSquare, 100, squareSize, squareSize);
    println(myXSquare + "," + myYSquare);
  }
  void runCheck(){
