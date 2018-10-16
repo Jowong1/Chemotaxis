@@ -90,9 +90,9 @@ Bacteria top;
    top.numberGenerator();
    topRowDispenser();
    if(cueSquares == true){
-     for(int i = 0; i < squares.length;i++){
-         squares[i].squareShow();
-         squares[i].squareGlide();
+     for(int t = 0; t < squares.length;t++){
+         squares[t].squareShow();
+         squares[t].squareGlide();
      }
    }
    if(secondRow == true){
