@@ -109,7 +109,7 @@
    top.show();
    top.numberGenerator();
    topRowDispenser();
-   if(cueSquares == true){
+   if(cueSquares == true)
      for(int i = 0; i < squares.length;i++){
          squares[i].squareShow();
          squares[i].squareGlide();
@@ -308,7 +308,7 @@
     }
     if(crushEm == true){
       shiftY = 1;
-      if(myY == 180){
+      if((int)myY == 180){
         shiftY = 0;
         crushed = true;
       }
